@@ -1,7 +1,7 @@
 /* footer.css */
 
 .footer {
-  position: fixed; /* ou absolute, conforme necessário */
+  position: flex; /* ou absolute, conforme necessário */
   bottom: 0;
   left: 0;
   width: 100%;

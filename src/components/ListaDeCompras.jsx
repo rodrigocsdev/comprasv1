@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./ListaDeCompras.css";
+import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+
+import Typography from '@mui/material/Typography';
+import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ListaDeCompras = () => {
   const initialItems = JSON.parse(localStorage.getItem("listaDeCompras")) || [];
@@ -20,7 +26,6 @@ const ListaDeCompras = () => {
 
   useEffect(() => {
     if (editItemId !== null && containerRef.current) {
-      // Scroll to the top of the container when editing an item
       containerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [editItemId]);
@@ -101,85 +106,115 @@ const ListaDeCompras = () => {
   };
 
   return (
-    <div className="container" ref={containerRef}>
-      <div className="header">
-        <h1>Lista de Compras</h1>
+    <div ref={containerRef}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", marginTop: "1em" }}>
+        <h1 style={{ color: "#036db8", fontWeight: "bold" }}>Lista de Compras</h1>
       </div>
-      <div className="form-container">
-        <input
-          type="text"
-          placeholder="Nome do item"
+      <div>
+        <TextField
+          label="Nome do item"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
+          size="small"
+          style={{ width: 150 }}
         />
-        <input
+        <TextField
+          label="Valor"
           type="number"
-          placeholder="Valor"
           value={itemValue}
           onChange={(e) => setItemValue(e.target.value)}
+          size="small"
+          style={{ width: 70 }}
         />
-        <input
+        <TextField
+          label="Quantidade"
           type="number"
-          placeholder="Quantidade"
           value={itemQuantity}
           onChange={(e) => setItemQuantity(e.target.value)}
+          size="small"
+          style={{ width: 70 }}
         />
-        <button className="add-button" onClick={handleAddItem}>
-          {editItemId !== null ? "Atualizar" : "Adicionar"}
-        </button>
+        <Button
+          size="large"
+          variant="contained"
+          color="primary"
+          onClick={handleAddItem}
+          startIcon={editItemId !== null ? <CheckIcon /> : <AddIcon />}
+          style={{ marginLeft: 10 }}
+        />
       </div>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Pesquisar por nome"
+      <div>
+        <TextField
+          label="Pesquisar por nome"
           value={searchTerm}
           onChange={handleSearch}
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          size="small"
         />
       </div>
-      <div className="container-table">
-      <table className="items-table">
-        <thead>
-          <tr>
-            <th onClick={() => handleSort("id")}>
-              ID {sortField === "id" && (sortDirection === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("name")}>
-              Nome {sortField === "name" && (sortDirection === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("value")}>
-              Valor {sortField === "value" && (sortDirection === "asc" ? "▲" : "▼")}
-            </th>
-            <th>Qtd</th>
-            <th>Total</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>R${item.value.toFixed(2)}</td>
-              <td>{item.quantity}</td>
-              <td>R${(item.value * item.quantity).toFixed(2)}</td>
-              <td>
-                <button className="edit-button" onClick={() => handleEditItem(item.id)}>
-                  Editar
-                </button>
-                <button className="remove-button" onClick={() => handleRemoveItem(item.id)}>
-                  Remover
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-      <div className="container-total">
-      <div className="total">Total: R${calculateTotal().toFixed(2)}</div>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell onClick={() => handleSort("id")}>
+                ID {sortField === "id" && (sortDirection === "asc" ? "▲" : "▼")}
+              </TableCell>
+              <TableCell onClick={() => handleSort("name")}>
+                Nome {sortField === "name" && (sortDirection === "asc" ? "▲" : "▼")}
+              </TableCell>
+              <TableCell onClick={() => handleSort("value")}>
+                Valor {sortField === "value" && (sortDirection === "asc" ? "▲" : "▼")}
+              </TableCell>
+              <TableCell>Qtd</TableCell>
+              <TableCell>Total</TableCell>
+              <TableCell>Ações</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>R${item.value.toFixed(2)}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
+                <TableCell>R${(item.value * item.quantity).toFixed(2)}</TableCell>
+                <TableCell>
+                  <Button variant="contained" color="primary" onClick={() => handleEditItem(item.id)}>
+                    <EditIcon />
+                  </Button>
+                  <Button variant="contained" color="error" onClick={() => handleRemoveItem(item.id)}>
+                    <DeleteIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div style={{
+        position: "fixed",
+        bottom: 40,
+        left: 10,
+        backgroundColor: "transparent",
+        padding: 10,
+        borderRadius: "50%",
+        width: 60,
+        height: 60,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#3498db",
+      }}>
+        <Typography variant="h6" style={{fontWeight: "bold", fontSize: 20}}>
+          <b>R${calculateTotal().toFixed(2)}</b>
+        </Typography>
       </div>
     </div>
   );
 };
 
 export default ListaDeCompras;
+
+
