@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import './ListaDeCompras.css';
 
 const ListaDeCompras = () => {
-  const initialItems = JSON.parse(localStorage.getItem("listaDeCompras")) || [];
+  const initialItems = useMemo(() => JSON.parse(localStorage.getItem("listaDeCompras")) || [], []);
   const initialLists = JSON.parse(localStorage.getItem("listasDeCompras")) || [];
 
   const [items, setItems] = useState(initialItems);
@@ -54,7 +54,7 @@ const ListaDeCompras = () => {
       setCurrentListId(1);
       setActiveScreen("items");
     }
-  }, [initialItems]);
+  }, [initialItems, listas.length]);
 
   useEffect(() => {
     if (editItemId !== null && containerRef.current) {
