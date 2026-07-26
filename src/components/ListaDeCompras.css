@@ -1,0 +1,184 @@
+/* Layout and responsive styles for ListaDeCompras */
+.lista-de-compras-root {
+	padding: 16px;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.screen-tabs {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 16px;
+	flex-wrap: wrap;
+}
+
+.tab {
+	border: 1px solid #ccc;
+	background: #fff;
+	color: #333;
+	padding: 10px 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	flex: 1;
+	min-width: 120px;
+}
+
+.tab.active {
+	background: #036db8;
+	color: #fff;
+	border-color: #036db8;
+}
+
+.tab:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.screen-panel {
+	display: block;
+}
+
+.screen-panel.hidden {
+	display: none;
+}
+
+.lists-card,
+.empty-state,
+.product-header,
+.current-list-summary,
+.actions-row,
+.compare-result,
+.total-summary {
+	background: #f9fbff;
+	border: 1px solid #e6ecf5;
+	border-radius: 12px;
+	padding: 16px;
+	margin-bottom: 16px;
+}
+
+.lists-bar {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.lists-bar > div {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.current-list-summary,
+.product-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.product-header h1 {
+	margin: 0;
+	font-size: 1.5rem;
+}
+
+.item-bar {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+
+.actions-row {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.compare-block {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.compare-block select {
+	min-width: 140px;
+}
+
+.search-block {
+	margin-bottom: 16px;
+}
+
+.actions-cell {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.compare-result h3 {
+	margin-top: 0;
+}
+
+.total-summary {
+	position: fixed;
+	bottom: 40px;
+	left: 10px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.18);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+	z-index: 10;
+}
+
+@media (max-width: 768px) {
+	.lists-bar,
+	.item-bar,
+	.actions-row,
+	.compare-block,
+	.current-list-summary,
+	.product-header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.tab {
+		flex: 1 1 100%;
+	}
+
+	.compare-block select,
+	.compare-block button,
+	.lists-bar select,
+	.lists-bar .MuiTextField-root,
+	.lists-bar button,
+	.item-bar .MuiTextField-root,
+	.item-bar button,
+	.actions-row button {
+		width: 100%;
+	}
+}
+
+.MuiTableCell-root {
+	padding: 10px 12px;
+}
+
+.required-pulse .MuiOutlinedInput-notchedOutline {
+	border-color: rgba(255,0,0,0.95) !important;
+	box-shadow: 0 0 0 0 rgba(255,0,0,0.12);
+	animation: pulse-border 1s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.12); }
+  50% { box-shadow: 0 0 0 8px rgba(255,0,0,0.06); }
+  100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+}
